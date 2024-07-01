@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD, RouterModule } from '@nestjs/core';
 import { AppController } from './app.controller';
@@ -11,6 +11,7 @@ import { AuthGuard } from './common/auth/guard/auth.guard';
 import { RolesGuard } from './common/auth/guard/role.guard';
 import { BookModule } from './apps/admin/book/book.module';
 import { BookReadingModule } from './apps/user/reading-book/book-reading.module';
+import { LoggerMiddleware } from './common/middleware/logger.middleware';
 
 @Module({
   imports: [
@@ -59,4 +60,8 @@ import { BookReadingModule } from './apps/user/reading-book/book-reading.module'
     }
   ],
 })
-export class AppModule { }
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
+}

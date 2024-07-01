@@ -5,6 +5,7 @@ import * as basicAuth from 'express-basic-auth';
 import { AppModule } from './app.module';
 import { AdminModule } from './apps/admin/admin.module';
 import { UserModule } from './apps/user/user.module';
+import { AllExceptionsFilter } from './common/filters/all-exception.filter';
 async function bootstrap() {
   //................................................................................................................................
   const app = await NestFactory.create(AppModule);
@@ -65,6 +66,9 @@ async function bootstrap() {
       },
     };
     //.......................................................................................................................................
+
+    app.useGlobalFilters(new AllExceptionsFilter());
+
     const userConfig = new DocumentBuilder()
       .setTitle('User API')
       .setDescription('User API docs')
