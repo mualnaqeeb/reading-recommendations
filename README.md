@@ -1,29 +1,95 @@
-# Reading Recommendation System API
+# Project Installation and Running Guide
 
-The Reading Recommendation System API is a powerful tool that allows users to submit their reading intervals and receive personalized book recommendations. With its efficient algorithms and user-friendly interface, the API provides a seamless experience for book enthusiasts.
+## Prerequisites
 
-## Features
+Before you begin, ensure you have the following installed:
+- [Git](https://git-scm.com/downloads)
+- [Docker](https://www.docker.com/get-started) (for containerization)
+- [Node.js](https://nodejs.org/en/download/) (for running the project without Docker)
 
-### Role-Based Authorization
-The API implements role-based authorization, ensuring that only authorized users can access certain endpoints. This enhances security and protects sensitive user data.
+## Installation
 
-### Logging and Exception Handling
-To ensure reliable and error-free operation, the API includes logging and exception handling mechanisms. This allows for easy debugging and troubleshooting, making it easier to maintain the codebase.
+Clone the project repository:
 
-### Unit Tests
-The API is thoroughly tested using unit tests, guaranteeing its functionality and reliability. This helps identify and fix any issues early in the development process, resulting in a more robust system.
+```bash
+git clone https://github.com/mualnaqeeb/reading-recommendation.git
+cd reading-recommendation
+```
 
-## Getting Started
+## Running the Project
 
-To start using the Reading Recommendation System API, follow these simple steps:
+### Without Docker
 
-1. Install the required dependencies.
-2. Set up the necessary configuration files.
-3. Run the API server.
-4. Access the API endpoints using the provided documentation.
+1. **Install dependencies:**
+   
+   ```bash
+   npm install
+   ```
 
-For detailed instructions, please refer to the [API Documentation](/docs).
+2. **Set up environment variables:**
 
-## Conclusion
+   Ensure you have a `.env` file in the root of the project with the required configurations.
 
-The Reading Recommendation System API is a valuable tool for book lovers, providing personalized recommendations based on reading intervals. With its secure and reliable features, it ensures a seamless experience for users. Start using the API today and discover your next favorite book!
+3. **Seed Admin Account:**
+
+   Make sure to seed the admin account by running the seed script (if applicable).
+
+4. **Start the project:**
+
+   ```bash
+   npm run start
+   ```
+
+### With Docker
+
+1. **Set up secrets:**
+
+   Ensure you have a `secrets` directory in your project root containing the secret files (`db_user`, `db_password`, `db_name`) with your sensitive data.
+
+2. **Set up environment variables:**
+
+   Ensure you have a `.env` file in the root of the project with the required configurations.
+
+3. **Build the Docker image:**
+
+   ```bash
+   docker-compose build
+   ```
+
+4. **Run the Docker container:**
+
+   ```bash
+   docker-compose up
+   ```
+
+Replace `8080:8080` with the appropriate port mapping if your application uses a different port.
+
+## Accessing the Application
+
+Once the application is running, you can access it by navigating to [http://localhost:8080](http://localhost:8080) in your web browser (or the appropriate port if you've changed it).
+
+## Additional Information
+
+- **Seeding Admin Account:**
+
+  Ensure you seed the admin account by running the appropriate seed script if required. This is crucial for accessing admin functionalities.
+
+- **Secrets Folder:**
+
+  Ensure you have a `secrets` folder with the necessary secret files for database credentials.
+
+- **Environment Variables:**
+
+  Ensure you have a `.env` file with all the required environment variables. This file should not be committed to version control for security reasons.
+
+- **API Version:**
+
+  When making API requests, include the API version in the headers to ensure compatibility. Example:
+
+  ```http
+  GET /endpoint HTTP/1.1
+  Host: localhost:8080
+  x-api-version: v1
+  ```
+
+---
