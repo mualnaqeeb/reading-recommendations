@@ -7,6 +7,21 @@ import { UpdateBookDto } from '../types';
 @Injectable()
 export class BookService {
     constructor(private prisma: PrismaService) { }
+
+    async getAll(ps: number, pn: number): Promise<{ books: Book[], currentPage: number, totalCount: number }> {
+        const skip = (pn - 1) * ps;
+        const take = ps;
+        const [books, totalCount] = await Promise.all([
+            this.prisma.book.findMany({
+                skip,
+                take,
+            }),
+            this.prisma.book.count()
+        ]);
+        const currentPage = pn;
+        return { books, currentPage, totalCount };
+    }
+
     async createBook(data: CreateBookDto): Promise<Book> {
         const existingBook = await this.prisma.book.findUnique({
             where: { name: data.name },
