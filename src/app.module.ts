@@ -10,6 +10,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { AuthGuard } from './common/auth/guard/auth.guard';
 import { RolesGuard } from './common/auth/guard/role.guard';
 import { BookModule } from './apps/admin/book/book.module';
+import { BookReadingModule } from './apps/user/reading-book/book-reading.module';
 
 @Module({
   imports: [
@@ -18,7 +19,12 @@ import { BookModule } from './apps/admin/book/book.module';
       {
         path: 'user',
         module: UserModule,
-        children: []
+        children: [
+          {
+            path: 'book',
+            module: BookReadingModule
+          }
+        ]
       },
       {
         path: 'admin',

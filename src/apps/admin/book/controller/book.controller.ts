@@ -1,10 +1,11 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { Role } from 'src/common/auth/types';
-import { CreateBookDto, DEFAULT_PAGE_NUMBER, DEFAULT_PAGE_SIZE, UpdateBookDto } from '../types';
+import { CreateBookDto, UpdateBookDto } from '../types';
 import { BookService } from '../service/book.service';
 import { Roles } from 'src/common/auth/decorator';
 import { Book } from '@prisma/client';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { DEFAULT_PAGE_NUMBER, DEFAULT_PAGE_SIZE } from 'src/common/constants';
 
 @Controller()
 @Roles(Role.Admin)
