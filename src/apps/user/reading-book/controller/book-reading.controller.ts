@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { GetCurrentUserId, Roles } from 'src/common/auth/decorator';
 import { Role } from 'src/common/auth/types';
 import { DEFAULT_PAGE_NUMBER, DEFAULT_PAGE_SIZE } from 'src/common/constants';
@@ -11,6 +11,7 @@ import { UpdateReadingInterval } from '../types/dto/update-reading-interval';
 @Controller()
 @ApiTags('User Book Reading API')
 @Roles(Role.User)
+@ApiBearerAuth()
 export class BookController {
     constructor(private readonly bookReadingService: BookReadingService) { }
 

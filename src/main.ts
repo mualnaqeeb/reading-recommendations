@@ -3,8 +3,6 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as basicAuth from 'express-basic-auth';
 import { AppModule } from './app.module';
-import { AdminModule } from './apps/admin/admin.module';
-import { UserModule } from './apps/user/user.module';
 import { AllExceptionsFilter } from './common/filters/all-exception.filter';
 async function bootstrap() {
   //................................................................................................................................
@@ -16,6 +14,8 @@ async function bootstrap() {
       transform: true,
     }),
   );
+  //.......................................................................................................................................
+  app.useGlobalFilters(new AllExceptionsFilter());
   //.......................................................................................................................................
   app.enableCors();
   //.......................................................................................................................................
@@ -35,7 +35,6 @@ async function bootstrap() {
         users: { [docsUser]: docsPass },
       }),
     );
-
     //.......................................................................................................................................
     const config = new DocumentBuilder()
       .setTitle('Reading List')
@@ -49,42 +48,7 @@ async function bootstrap() {
         persistAuthorization: true,
       },
     };
-    //.......................................................................................................................................
-    const adminConfig = new DocumentBuilder()
-      .setTitle('Admin API')
-      .setDescription('Admin API docs')
-      .setVersion('1.0')
-      .addBearerAuth()
-      .build();
-
-    const adminDocument = SwaggerModule.createDocument(app, adminConfig, {
-      include: [AdminModule],
-    });
-    SwaggerModule.setup('docs/admin', app, adminDocument), {
-      swaggerOptions: {
-        persistAuthorization: true,
-      },
-    };
-    //.......................................................................................................................................
-
-    app.useGlobalFilters(new AllExceptionsFilter());
-
-    const userConfig = new DocumentBuilder()
-      .setTitle('User API')
-      .setDescription('User API docs')
-      .setVersion('1.0')
-      .addBearerAuth()
-      .build();
-    const userDocument = SwaggerModule.createDocument(app, userConfig, {
-      include: [UserModule],
-    });
-    SwaggerModule.setup('docs/user', app, userDocument), {
-      swaggerOptions: {
-        persistAuthorization: true,
-      },
-    };
   }
-  //.......................................................................................................................................
   const PORT = process.env.PORT || 8080;
   await app.listen(PORT);
   //.......................................................................................................................................
